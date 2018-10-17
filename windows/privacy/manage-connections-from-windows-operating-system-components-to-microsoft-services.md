@@ -1891,15 +1891,15 @@ You can turn off apps for websites, preventing customers who visit websites that
 
 Disable the Group Policy: **Computer Configuration** > **Administrative Templates** > **System** > **Group Policy** > **Configure web-to-app linking with URI handlers**
 
-### <a href="" id="bkmk-updates"></a>27. Windows Update Delivery Optimization
+### <a href="" id="bkmk-updates"></a>27. Delivery Optimization
 
-Windows Update Delivery Optimization lets you get Windows updates and Microsoft Store apps from sources in addition to Microsoft, which not only helps when you have a limited or unreliable Internet connection, but can also help you reduce the amount of bandwidth needed to keep all of your organization's PCs up-to-date. If you have Delivery Optimization turned on, PCs on your network may send and receive updates and apps to other PCs on your local network, if you choose, or to PCs on the Internet.
+Delivery Optimization lets you get Windows updates, Microsoft Store apps and Office Click-to-Run Updates from sources in addition to Microsoft, which not only helps when you have a limited or unreliable Internet connection, but can also help you reduce the amount of bandwidth needed to keep all of your organization's PCs up-to-date. If you allow Peer-to-Peer with Delivery Optimization, PCs on your network may send and receive updates and apps to other PCs on your local network, if you choose, or to PCs on the Internet.
 
-By default, PCs running Windows 10 Enterprise and Windows 10 Education will only use Delivery Optimization to get and receive updates for PCs and apps on your local network.
+By default, PCs running Windows 10 will only use Delivery Optimization to get and receive updates for PCs and apps on your local network.
 
 Use the UI, Group Policy, MDM policies, or Windows Provisioning to set up Delivery Optimization.
 
-In Windows 10, version 1607, you can stop network traffic related to Windows Update Delivery Optimization by setting **Download Mode** to **Simple** (99) or **Bypass** (100), as described below.
+In Windows 10, version 1607, you can stop peer-to-peer network traffic related to Delivery Optimization by setting **Download Mode** to **HTTP Only (0)** or **Simple** (99), as described below.
 
 ### <a href="" id="bkmk-wudo-ui"></a>27.1 Settings &gt; Update & security
 
@@ -1913,25 +1913,17 @@ You can find the Delivery Optimization Group Policy objects under **Computer Con
 
 | Policy                    | Description                                                                                         |
 |---------------------------|-----------------------------------------------------------------------------------------------------|
-| Download Mode             | Lets you choose where Delivery Optimization gets or sends updates and apps, including <ul><li><p><strong>None</strong>. Turns off Delivery Optimization.</p></li><li><p><strong>Group</strong>. Gets or sends updates and apps to PCs on the same local network domain.</p></li><li><p><strong>Internet</strong>. Gets or sends updates and apps to PCs on the Internet.</p></li><li><p><strong>LAN</strong>. Gets or sends updates and apps to PCs on the same NAT only.</p></li><li><p><strong>Simple</strong>. Simple download mode with no peering.</p></li><li><p><strong>Bypass</strong>. Use BITS instead of Windows Update Delivery Optimization.</p></li></ul>|
+| Download Mode             | Lets you choose where Delivery Optimization gets or sends updates and apps, including <ul><li><p><strong>HTTP Only / None (0) </strong>. Turns off the Peer-to-Peer functionality of Delivery Optimization.</p></li><li><p><strong>Group (2) </strong>. Gets or sends updates and apps to PCs on the same local network domain.</p></li><li><p><strong>Internet (3) </strong>. Gets or sends updates and apps to PCs on the Internet.</p></li><li><p><strong>LAN (1) </strong>. Gets or sends updates and apps to PCs on the same NAT only.</p></li><li><p><strong>Simple (99)</strong>. Simple download mode disables the use of Delivery Optimization Cloud Services (recommended for offline environments). </p></li><li><p><strong>Bypass (100) </strong>. Use BITS instead of Delivery Optimization. Should only be set if you intend to use BranchCache. </p></li></ul>|
 | Group ID                  | Lets you provide a Group ID that limits which PCs can share apps and updates. <br /> **Note:** This ID must be a GUID.|
 | Max Cache Age             | Lets you specify the maximum time (in seconds) that a file is held in the Delivery Optimization cache. <br /> The default value is 259200 seconds (3 days).|
 | Max Cache Size            | Lets you specify the maximum cache size as a percentage of disk size. <br /> The default value is 20, which represents 20% of the disk.|
 | Max Upload Bandwidth      | Lets you specify the maximum upload bandwidth (in KB/second) that a device uses across all concurrent upload activity. <br /> The default value is 0, which means unlimited possible bandwidth.|
 
-You can also set the **Download Mode** policy by creating a new REG\_DWORD registry setting named **DODownloadMode** in **HKEY\_LOCAL\_MACHINE\\SOFTWARE\\Policies\\Microsoft\\Windows\\DeliveryOptimization** with a value of 100 (one hundred).
+For a complete list of available policies and recommended configuraiton options visit: [Delivery Optimizaiton Configuration] (https://docs.microsoft.com/en-us/windows/deployment/update/waas-delivery-optimization).
 
 ### <a href="" id="bkmk-wudo-mdm"></a>27.3 Delivery Optimization MDM policies
 
-The following Delivery Optimization MDM policies are available in the [Policy CSP](https://msdn.microsoft.com/library/windows/hardware/dn904962.aspx).
-
-| Policy                    | Description                                                                                         |
-|---------------------------|-----------------------------------------------------------------------------------------------------|
-| DeliveryOptimization/DODownloadMode             | Lets you choose where Delivery Optimization gets or sends updates and apps, including <ul><li><p><strong>0</strong>. Turns off Delivery Optimization.</p></li><li><p><strong>1</strong>. Gets or sends updates and apps to PCs on the same NAT only.</p></li><li><p><strong>2</strong>. Gets or sends updates and apps to PCs on the same local network domain.</p></li><li><p><strong>3</strong>. Gets or sends updates and apps to PCs on the Internet.</p></li><li><p><strong>99</strong>. Simple download mode with no peering.</p></li><li><p><strong>100</strong>. Use BITS instead of Windows Update Delivery Optimization.</p></li></ul>|
-| DeliveryOptimization/DOGroupID                 | Lets you provide a Group ID that limits which PCs can share apps and updates. <br /> **Note** This ID must be a GUID.|
-| DeliveryOptimization/DOMaxCacheAge             | Lets you specify the maximum time (in seconds) that a file is held in the Delivery Optimization cache. <br /> The default value is 259200 seconds (3 days).|
-| DeliveryOptimization/DOMaxCacheSize            | Lets you specify the maximum cache size as a percentage of disk size. <br /> The default value is 20, which represents 20% of the disk.|
-| DeliveryOptimization/DOMaxUploadBandwidth      | Lets you specify the maximum upload bandwidth (in KB/second) that a device uses across all concurrent upload activity. <br /> The default value is 0, which means unlimited possible bandwidth.|
+Delivery Optimization MDM policies are available in the [Policy CSP](https://docs.microsoft.com/en-us/windows/client-management/mdm/policy-configuration-service-provider#deliveryoptimization-policies).
 
 
 ### <a href="" id="bkmk-wudo-prov"></a>27.4 Delivery Optimization Windows Provisioning
@@ -1948,7 +1940,7 @@ Use Windows ICD, included with the [Windows Assessment and Deployment Kit (Windo
 
 4.  Go to **Runtime settings** &gt; **Policies** &gt; **DeliveryOptimization** to configure the policies.
 
-For more info about Delivery Optimization in general, see [Windows Update Delivery Optimization: FAQ](https://go.microsoft.com/fwlink/p/?LinkId=730684).
+For more info about Delivery Optimization in general, see [Windows Update Delivery Optimization: FAQ](https://go.microsoft.com/fwlink/p/?LinkId=730684) and [Delivery Optimization Configuration] (https://docs.microsoft.com/en-us/windows/deployment/update/waas-delivery-optimization)
 
 ### <a href="" id="bkmk-wu"></a>28. Windows Update
 
